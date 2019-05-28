@@ -816,7 +816,7 @@ client.on('guildMemberAdd', member => {
                       
                                      .addField(' الـسيرفر', `${member.guild.name}`,true)
                                        
-     .setFooter("**#TheH1TS CLAN **")
+     .setFooter("#TheH1TS CLAN ")
         .setTimestamp()
     
       channel.sendEmbed(embed);
