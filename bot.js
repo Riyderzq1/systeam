@@ -1098,4 +1098,157 @@ client.on("guildMemberAdd", member => {
 
 
 
+
+
+
+
+client.on("message", message => {
+    if (message.author.bot) return;
+    
+    let command = message.content.split(" ")[0];
+    
+    if (command === "$mute") {
+          if (!message.member.hasPermission('MANAGE_ROLES')) return message.reply("** لا يوجد لديك برمشن 'Manage Roles' **").catch(console.error);
+    let user = message.mentions.users.first();
+    let modlog = client.channels.find('name', 'mute-log');
+    let muteRole = client.guilds.get(message.guild.id).roles.find('name', 'Muted');
+    if (!muteRole) return message.reply("** لا يوجد رتبة الميوت 'Muted' **").catch(console.error);
+    if (message.mentions.users.size < 1) return message.reply('** يجب عليك منشنت شخص اولاً**').catch(console.error);
+    
+    const embed = new Discord.RichEmbed()
+      .setColor(0x00AE86)
+      .setTimestamp()
+      .addField('الأستعمال:', 'اسكت/احكي')
+      .addField('تم ميوت:', `${user.username}#${user.discriminator} (${user.id})`)
+      .addField('بواسطة:', `${message.author.username}#${message.author.discriminator}`)
+     
+     if (!message.guild.member(client.user).hasPermission('MANAGE_ROLES_OR_PERMISSIONS')) return message.reply('** لا يوجد لدي برمشن Manage Roles **').catch(console.error);
+   
+    if (message.guild.member(user).roles.has(muteRole.id)) {
+  return message.reply("**:white_check_mark: .. تم اعطاء العضو ميوت**").catch(console.error);
+  } else {
+      message.guild.member(user).addRole(muteRole).then(() => {
+  return message.reply("**:white_check_mark: .. تم اعطاء العضو ميوت كتابي**").catch(console.error);
+  });
+    }
+  
+  };
+  
+  });
+
+
+
+
+
+
+
+
+
+
+client.on('message', function(msg) {
+    var prefix = "$"
+if(msg.content.startsWith (prefix  + 'server')) {
+ let embed = new Discord.RichEmbed()
+ .setColor('RANDOM')
+ .setThumbnail(msg.guild.iconURL)
+ .setTitle(`Showing Details Of  **${msg.guild.name}*`)
+ .addField(':globe_with_meridians:** نوع السيرفر**',`[** __${msg.guild.region}__ **]`,true)
+ .addField(':medal:** __الرتب__**',`[** __${msg.guild.roles.size}__ **]`,true)
+ .addField(':red_circle:**__ عدد الاعضاء__**',`[** __${msg.guild.memberCount}__ **]`,true)
+ .addField(':large_blue_circle:**__ عدد الاعضاء الاونلاين__**',`[** __${msg.guild.members.filter(m=>m.presence.status == 'online').size}__ **]`,true)
+ .addField(':pencil:**__ الرومات الكتابية__**',`[** __${msg.guild.channels.filter(m => m.type === 'text').size}__** ]`,true)
+ .addField(':microphone:**__ رومات الصوت__**',`[** __${msg.guild.channels.filter(m => m.type === 'voice').size}__ **]`,true)
+ .addField(':crown:**__ الأونـر__**',`**${msg.guild.owner}**`,true)
+ .addField(':id:**__ ايدي السيرفر__**',`**${msg.guild.id}**`,true)
+ .addField(':date:**__ تم عمل السيرفر في__**',msg.guild.createdAt.toLocaleString())
+ msg.channel.send({embed:embed});
+}
+});
+
+
+
+client.on('message', message => {
+    if (message.content === "$bot") {
+           if(!message.channel.guild) return message.reply('** This command only for servers **');
+    let embed = new Discord.RichEmbed()
+ .setColor('RANDOM')
+ .addField("**اسم السيرفر**", message.guild.name)
+ .addField("**عدد السيرفرات الي فيها البوت:**" , client.guilds.size)
+ .addField("**المستخدمين:**", client.users.size)
+ .addField("**قنوات:**", client.channels.size)
+message.channel.sendEmbed(embed);
+   }
+});
+
+
+
+
+
+
+
+client.on('message', message => {
+    if (message.content.startsWith("$رابط")) {
+        
+  message.channel.createInvite({
+        thing: true,
+        maxUses: 5,
+        maxAge: 86400
+    }).then(invite =>  
+      message.author.sendMessage(invite.url)
+    )
+    const embed = new Discord.RichEmbed()
+        .setColor("2fff00")
+        .setDescription("| :white_check_mark:  | :heart:  تم ارسال الرابط على الخاص  ")
+        .setFooter("Spring-Team")
+      message.channel.sendEmbed(embed).then(message => {message.delete(10000)})
+              const Embed11 = new Discord.RichEmbed()
+        .setColor("2fff00")
+        .setDescription(`
+**-------------------
+-هذا هو الرابط :
+-ارسله للي تحب وحيآك انت وياه
+-ونورنا ياجميل :heart: 
+------------------- **`)
+        .setFooter("By:#TheH1ts")
+      message.author.sendEmbed(Embed11)
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+client.on('message', message => { 
+    var prefix = "$";
+    if (message.author.boss) return;
+    if (!message.content.startsWith(prefix)) return;
+    let command = message.content.split(" ")[0];
+    command = command.slice(prefix.length);
+    if (command == "Roleadd") {
+    if (!message.channel.guild) return;
+    if(!message.guild.member(message.author).hasPermission("MANAGE_ROLES")) return message.reply("**:no_entry_sign:انت لا تملك صلاحيات **").then(msg => msg.delete(5000));;
+    if(!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.reply("البوت لايملك صلاحيات ").then(msg => msg.delete(5000));;
+    let user = message.mentions.users.first();
+    if (message.mentions.users.size < 1) return message.reply('**ضع منشن الشخص!!**').then(msg => {msg.delete(5000)});
+    let MRole = message.content.split(" ").slice(2).join(" ");
+    if(!MRole)return message.reply("يجب عليك وضع اسم الرتبة").then(msg => {msg.delete(5000)});
+    message.guild.member(user).addRole(message.guild.roles.find("name", MRole));
+    message.reply('*** Done :white_check_mark:  ***').then(msg => {msg.delete(10000)});
+    }
+    });
+    
+
+
+
+
+
+
+
+
 client.login(process.env.BOT_TOKEN);
